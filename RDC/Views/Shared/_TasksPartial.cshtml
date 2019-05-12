@@ -1,0 +1,16 @@
+﻿<ul class="nav nav-tabs" id="tasksTabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="allTasksTab" data-toggle="tab" href="#viewTasksTab">All Tasks</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="taskConfigTab" data-toggle="tab" href="#taskTab">New Task</a>
+    </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane fade show active" id="viewTasksTab">
+        @Html.Action("ViewAll")
+    </div>
+    <div class="tab-pane fade" id="taskTab">
+        @Html.Action("Create")
+    </div>
+</div>

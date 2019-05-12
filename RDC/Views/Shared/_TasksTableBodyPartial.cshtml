@@ -1,0 +1,14 @@
+﻿@model RDC.Models.Task
+
+<tr>
+    <td>@Html.DisplayFor(modelItem => Model.Title)</td>
+    <td>@Html.DisplayFor(modelItem => Model.Description)</td>
+    <td>@Html.DisplayFor(modelItem => Model.Date)</td>
+    <td>@Html.DisplayFor(modelItem => Model.Status)</td>
+    <td>
+        <a class="fa fa-edit fa-lg control-icon mr-1" onclick="renameTabTitle('taskConfigTab', 'Edit Task'); redirectToEditTaskTab('@Url.Action("Edit", "Tasks", new { id = Model.Id })')"></a>
+        <a class="fa fa-info-circle text-info fa-lg control-icon mr-1" onclick="renameTabTitle('taskConfigTab', 'Task Details'); redirectToTaskDetailsTab('@Url.Action("Details", "Tasks", new { id = Model.Id })')"></a>
+        <a class="fa fa-tasks text-primary fa-lg control-icon mr-1" data-task-id="@Model.Id" onclick="redirectToSubTasks(this)"></a>
+        <a class="fa fa-trash-alt text-danger fa-lg control-icon" data-task-id="@Model.Id" onclick="deleteTask(this)"></a>
+    </td>
+</tr>

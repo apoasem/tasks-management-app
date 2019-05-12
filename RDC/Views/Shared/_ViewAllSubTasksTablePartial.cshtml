@@ -1,0 +1,45 @@
+﻿@model RDC.ViewModels.SubTaskViewModel
+
+<div class="table-responsive-sm" id="subTasksTableContainer">
+    <table class="table table-bordered table-hover text-center" id="subTasksTable">
+        <thead class="thead-dark">
+            <tr class="header-columns">
+                <th>
+                    <div class="d-flex flex-row">
+                        <div class="d-flex flex-column pr-5">
+                            <a onclick="sortTasksAsec(event)" class="fa fa-sort-up control-icon"></a> <!-- implement -->
+                            <a onclick="sortTasksDesc(event)" class="fa fa-sort-down control-icon"></a> <!-- implement -->
+                        </div>
+                        <div class="pt-2">
+                            @Html.DisplayNameFor(model => model.Title)
+                        </div>
+                    </div>
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Priority)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Status)
+                </th>
+
+                <th>
+                    Controls
+                </th>
+            </tr>
+        </thead>
+
+        <tbody class="tbody">
+            @foreach (var item in Model.SubTasksList)
+            {
+                @Html.Partial("_SubTasksTableBodyPartial", item);
+            }
+        </tbody>
+
+    </table>
+</div>

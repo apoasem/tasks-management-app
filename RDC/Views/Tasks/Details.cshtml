@@ -1,0 +1,54 @@
+﻿@model RDC.Models.Task
+
+@{
+    ViewBag.Title = "Details";
+    Layout = null;
+}
+
+<div>
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Date)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Date)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            subtasks
+        </dt>
+
+        <dd>
+            <button class="btn btn-success text-light" onclick="getTaskSubTasksList(@Model.Id)">Show subTasks</button>
+        </dd>
+    </dl>
+</div>
+
+<button class="btn btn-primary" onclick="renameTabTitle('taskConfigTab', 'New Task'); redirectToTab('tasksTabs', 0); getAddNewTaskTabContent()">Back to List</button>
+<button class="btn btn-success text-light" onclick="renameTabTitle('taskConfigTab', 'New Task'); getAddNewTaskTabContent()">New Task</button>

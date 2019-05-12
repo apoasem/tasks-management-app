@@ -1,0 +1,31 @@
+﻿@model RDC.ViewModels.SubTaskViewModel
+
+@{
+    ViewBag.Title = "Index";
+    Layout = null;
+}
+
+    <div class="form-group d-md-flex flex-md-row flex-sm-column">
+        <a class="btn btn-success col-md-1 control-icon order-md-0 order-sm-3" onclick="redirectToTasks()"><i class="fa fa-arrow-alt-circle-left fa-lg text-light"></i></a>
+        
+        <input type="text" name="filter" id="filter" class="form-control offset-md-1 col-md-3 order-md-1 order-sm-0" placeholder="Search by any thing.." onkeyup="searchSubTasks(event)">
+        
+        <select class="form-control-sm offset-md-2 col-md-2 order-md-2 order-sm-1" id="statusFilter" onchange="filterSubTasksByStatus(this)">
+            <option disabled selected>Select Filter</option>
+            @foreach (var item in Model.StatusList)
+            {
+                <option value="@item">@item</option>
+            }
+        </select>
+
+        <select class="form-control-sm offset-md-1 col-md-2 order-md-3 order-sm-2" id="priorityFilter" onchange="filterSubTasksByPriority(this)">
+            <option disabled selected>Select Filter</option>
+            @foreach (var item in Model.PriorityList)
+            {
+                <option value="@item">@item</option>
+            }
+        </select>
+    </div>
+
+
+@Html.Partial("_ViewAllSubTasksTablePartial", Model)

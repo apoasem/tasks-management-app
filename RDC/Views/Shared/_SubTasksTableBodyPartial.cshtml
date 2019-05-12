@@ -1,0 +1,14 @@
+﻿@model RDC.Models.SubTask
+
+<tr>
+    <td>@Html.DisplayFor(modelItem => Model.Title)</td>
+    <td>@Html.DisplayFor(modelItem => Model.Description)</td>
+    <td>@Html.DisplayFor(modelItem => Model.Date)</td>
+    <td>@Html.DisplayFor(modelItem => Model.Priority)</td>
+    <td>@Html.DisplayFor(modelItem => Model.Status)</td>
+    <td>
+        <a class="fa fa-edit fa-lg control-icon mr-1" onclick="renameTabTitle('subTaskConfigTab', 'Edit SubTask'); redirectToEditSubTaskTab('@Url.Action("Edit", "SubTasks", new { id = Model.Id })')"></a>
+        <a class="fa fa-info-circle text-info fa-lg control-icon mr-1" onclick="renameTabTitle('subTaskConfigTab', 'SubTask Details'); redirectToSubTaskDetailsTab('@Url.Action("Details", "SubTasks", new { id = Model.Id })')"></a>
+        <a class="fa fa-trash-alt text-danger fa-lg control-icon" data-subtask-id="@Model.Id" onclick="deleteSubTask(this)"></a>
+    </td>
+</tr>

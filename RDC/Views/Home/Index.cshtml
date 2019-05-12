@@ -1,0 +1,54 @@
+﻿@model RDC.ViewModels.TasksStatusChartViewModel
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="d-flex flex-column justify-content-center align-items-center">
+    <div style="width: 600px; height: 400px; ">
+        <canvas id="pie-chart" width="800" height="450" style="height: 100%; width: 100%" 
+                data-task-backlog="@Model.TasksBacklog"
+                data-task-progress="@Model.TasksProgress"
+                data-task-done="@Model.TasksDone"></canvas>
+    </div>
+    <div>
+        @Html.ActionLink("Show Tasks", "Index", "Tasks", null, new { @class = "btn btn-success btn-lg" })
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/Scripts/Chart/Chart.min.js"></script>
+
+    <script>
+
+        var tasksBacklog = parseInt($("#pie-chart").attr("data-task-backlog"));
+        var tasksProgress = parseInt($("#pie-chart").attr("data-task-progress"));
+        var tasksDone = parseInt($("#pie-chart").attr("data-task-done"));
+
+        var allTasks =  tasksBacklog + tasksProgress + tasksDone;
+
+        console.log(allTasks);
+
+
+        new Chart(document.getElementById("pie-chart"), {
+            type: 'pie',
+            data: {
+              labels: ["Backlog", "In Progress", "Done"],
+              datasets: [
+                {
+                  label: "Population (millions)",
+                  backgroundColor: ["#fff601", "#ff0000","#13ff02"],
+                  data: [tasksBacklog,tasksProgress,tasksDone]
+                }
+              ]
+            },
+            options: {
+              title: {
+                display: true,
+                text: ''
+              }
+            }
+        });
+
+    </script>
+}
