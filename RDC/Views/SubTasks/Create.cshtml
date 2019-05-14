@@ -5,7 +5,7 @@
     Layout = null;
 }
 
-@using (Html.BeginForm("Create", "SubTasks", FormMethod.Post, new { onsubmit = "return postSubTask(this)" })) 
+@using (Html.BeginForm("Create", "SubTasks", FormMethod.Post, new { onsubmit = "return postSubTask(this)", data_subTaskId = Model.Id })) 
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.TaskId)

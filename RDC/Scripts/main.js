@@ -31,9 +31,18 @@ function postTask(form) {
                 $("#viewTasksTab").html(response);
                 redirectToTab("tasksTabs", 0);
                 getAddNewTaskTabContent(); // refresh the form
+                renameTabTitle("taskConfigTab", "New Task");
+                console.log($(form).attr("data-taskId"));
+
+                if ($(form).attr("data-taskId") == 0) {
+                    $.notify("task added successfully", "success");
+                } else {
+                    $.notify("task updated successfully", "success");
+                    renameTabTitle("taskConfigTab", "New Task");
+                }
             },
             error: function () {
-                alert("error");
+                $.notify("some thing went wrong!", "error");
             }
         });
     }
@@ -61,9 +70,15 @@ function postSubTask(form) {
                 getSubTasksListOfSpecificTask(taskId);
                 redirectToTab("subTasksTabs", 0);
                 getAddNewSubTaskTabContent(); // refresh the form
+
+                if ($(form).attr("data-subTaskId") == 0) {
+                    $.notify("subtask added successfully", "success");
+                } else {
+                    $.notify("subtask updated successfully", "success");
+                }
             },
             error: function () {
-                alert("error");
+                $.notify("some thing went wrong!", "error");
             }
         });
     }
@@ -86,12 +101,12 @@ function deleteTask(task) {
                     processData: false,
                     success: function () {
                         row.remove();
+                        $.alert('Task Deleted Successfully!');
                     },
                     error: function () {
-                        alert("error");
+                        $.notify("some thing went wrong!", "error");
                     }
-                })
-                $.alert('Task Deleted Successfully!');
+                }) 
             },
             cancel: function () {
                 $.alert('Task Deletion Canceled!');
@@ -116,12 +131,12 @@ function deleteSubTask(subTask) {
                     processData: false,
                     success: function () {
                         row.remove();
+                        $.alert('subTask Deleted Successfully!');
                     },
                     error: function () {
-                        alert("error");
+                        $.notify("some thing went wrong!", "error");
                     }
                 })
-                $.alert('subTask Deleted Successfully!');
             },
             cancel: function () {
                 $.alert('subTask Deletion Canceled!');

@@ -6,10 +6,9 @@
 }
 
 
-@using (Html.BeginForm("Edit", "Tasks", FormMethod.Post, new { onsubmit = "return postTask(this);" }))
+@using (Html.BeginForm("Edit", "Tasks", FormMethod.Post, new { onsubmit = "return postTask(this);", data_taskId = Model.Id}))
 {
     @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.Id)
     
     <div class="form-horizontal">
 

@@ -165,6 +165,7 @@ namespace RDC.Controllers
 
             var viewModel = new TaskViewModel()
             {
+                Id = task.Id,
                 StatusList = StatusList,
                 Date = task.Date,
                 Description = task.Description,
