@@ -7,9 +7,9 @@
 
 <div class="form-group d-flex justify-content-sm-between">
     
-    <input type="text" name="filter" id="filter" class="form-control offset-md-2 col-md-3" placeholder="Search by any thing.." onkeyup="searchTasks(event)">
+    <input type="text" name="filter" id="searchTasks" class="form-control offset-md-2 col-md-3" placeholder="Search by any thing.." onkeyup="searchTasks(event)">
     
-    <select class="form-control offset-md-4 col-md-2" id="statusFilter" onchange="filterTasksByStatus(this)">
+    <select class="form-control offset-md-4 col-md-2" id="statusFilter" onchange="resetSearchInput();filterTasksByStatus(this)">
         <option disabled selected>Select Filter</option>
         @foreach (var item in Model.StatusList)
         {

@@ -28,12 +28,15 @@ namespace RDC.Controllers
             return View();
         }
 
-        public ActionResult TasksPartial()
+        public ActionResult TasksPagePartial()
         {
-            return PartialView("_TasksPartial");
+            Filter = "None";
+            Sort = "None";
+            return PartialView("_TasksPagePartial");
         }
 
-        public ActionResult ViewAll()
+        
+        public ActionResult ViewAllTasks()
         {
             var tasks = db.Tasks.AsQueryable();
 
@@ -46,6 +49,7 @@ namespace RDC.Controllers
             return View(viewModel);
         }
 
+        [Route("Tasks/ViewAllTasksTable/{sort?}/{filter?}")]
         public ActionResult ViewAllTasksTable(string sort, string filter)
         {
             var tasks = db.Tasks.AsQueryable();
@@ -129,7 +133,7 @@ namespace RDC.Controllers
             {
                 db.Tasks.Add(task);
                 db.SaveChanges();
-                return RedirectToAction("ViewAll");
+                return RedirectToAction("ViewAllTasks");
             }
 
             var viewModel = new TaskViewModel()
@@ -182,7 +186,7 @@ namespace RDC.Controllers
             {
                 db.Entry(task).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("ViewAll");
+                return RedirectToAction("ViewAllTasks");
             }
 
             var viewModel = new TaskViewModel()
@@ -214,7 +218,7 @@ namespace RDC.Controllers
             db.Tasks.Remove(task);
             db.SaveChanges();
 
-            return RedirectToAction("ViewAll");
+            return RedirectToAction("ViewAllTasks");
         }
 
         protected override void Dispose(bool disposing)

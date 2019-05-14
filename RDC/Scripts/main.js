@@ -1,6 +1,5 @@
 ﻿$(document).ready(function () {
     $('.datepicker').datepicker(); //Initialise any date pickers
-    //colorizeTasksTableStatusText();
 });
 
 $(document).bind("ajaxStart", function () {
@@ -9,30 +8,68 @@ $(document).bind("ajaxStart", function () {
     $("#spinner-loader").addClass("d-none")
 })
 
+function resetSearchInput() {
+    $("#searchTasks").val("");
+    $("#searchSubTasks").val("");
+}
 
-//function colorizeTasksTableStatusText() {
+function postTask(form) {
 
-//    var tasksTable = document.getElementById("tasksTable"); // used in many places in this file .. optimize
+    $.validator.unobtrusive.parse(form);
 
-//    if (!tasksTable) {
-//        return;
-//    }
+    if ($(form).valid()) {
 
-//    for (var i = 0; i < tasksTable.rows.length; i++) {
-//        var cell = tasksTable.rows[i].cells[3];
-//        var cellText = cell.textContent.trim();
+        var formData = new FormData(form);
 
-//        if (cellText == "backlog") {
-//            cell.className = "text-warning";
-//        }
-//        else if (cellText == "In Progress") {
-//            cell.className = "text-primary";
+        $.ajax({
+            url: form.action,
+            method: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                $("#viewTasksTab").html(response);
+                redirectToTab("tasksTabs", 0);
+                getAddNewTaskTabContent(); // refresh the form
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+    }
 
-//        } else if (cellText == "Done") {
-//            cell.className = "text-success";
-//        }
-//    }
-//}
+    return false;
+}
+
+function postSubTask(form) {
+
+    $.validator.unobtrusive.parse(form);
+
+    if ($(form).valid()) {
+
+        var formData = new FormData(form);
+        var taskId = formData.get("TaskId");
+
+        $.ajax({
+            url: form.action,
+            method: "POST",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (response) {
+                $("#viewSubTasksTab").html(response);
+                getSubTasksListOfSpecificTask(taskId);
+                redirectToTab("subTasksTabs", 0);
+                getAddNewSubTaskTabContent(); // refresh the form
+            },
+            error: function () {
+                alert("error");
+            }
+        });
+    }
+
+    return false;
+}
 
 function deleteTask(task) {
     var row = $(task).closest("tr");
@@ -64,10 +101,9 @@ function deleteTask(task) {
 }
 
 function deleteSubTask(subTask) {
+
     var row = $(subTask).closest("tr");
-    console.log(row);
     var subTaskId = $(subTask).attr("data-subtask-id");
-    console.log(subTaskId);
 
     $.confirm({
         title: 'Delete subTask',
@@ -94,70 +130,15 @@ function deleteSubTask(subTask) {
     });
 }
 
-function postTask(form) {
 
-    $.validator.unobtrusive.parse(form);
-
-    if ($(form).valid()) {
-
-        var formData = new FormData(form);
-
-        $.ajax({
-            url: form.action,
-            method: "POST",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (response) { 
-                $("#viewTasksTab").html(response);
-                redirectToTab("tasksTabs", 0);
-                //colorizeTasksTableStatusText();
-                getAddNewTaskTabContent(); // refresh the form
-            },
-            error: function () {
-                alert("error");
-            }
-        });
-    }
-
-    return false;
-}
-
-function postSubTask(form) {
-
-    $.validator.unobtrusive.parse(form);
-
-    if ($(form).valid()) {
-
-        var formData = new FormData(form);
-        var taskId = formData.get("TaskId");  // magic string
-
-        $.ajax({
-            url: form.action,
-            method: "POST",
-            data: formData,
-            contentType: false,
-            processData: false,
-            success: function (response) {
-                $("#viewSubTasksTab").html(response);
-                getTaskSubTasksList(taskId);
-                redirectToTab("subTasksTabs", 0);
-                //colorizeTasksTableStatusText();
-                getAddNewSubTaskTabContent(); // refresh the form
-            },
-            error: function () {
-                alert("error");
-            }
-        });
-    }
-
-    return false;
-}
 
 function redirectToTab(tabsContainerId, tabNumber) {
     $("#" + tabsContainerId + " li a:eq(" + tabNumber + ")").tab("show");
 }
 
+function renameTabTitle(tabId, title) {
+    $("#" + tabId).html(title);
+}
 
 function getAddNewTaskTabContent() {
 
@@ -174,6 +155,25 @@ function getAddNewTaskTabContent() {
     });
 }
 
+function redirectToTasks() {
+    $.ajax({
+        url: "/Tasks/TasksPagePartial",
+        method: "GET",
+        success: function (response) {
+            $("#page").html(response);
+        },
+        error: function () {
+            alert("error");
+        }
+    });
+}
+
+function redirectToSubTasks(task) {
+
+    var taskId = $(task).attr("data-task-id");
+    getSubTasksListOfSpecificTask(taskId)
+}
+
 function getAddNewSubTaskTabContent() {
 
     $.ajax({
@@ -187,10 +187,6 @@ function getAddNewSubTaskTabContent() {
             alert("error");
         }
     });
-}
-
-function renameTabTitle(tabId, title) {
-    $("#" + tabId).html(title);
 }
 
 function redirectToEditTaskTab(url) {
@@ -321,7 +317,6 @@ function sortTasksAsec(e) {
         processData: false,
         success: function (response) {
             $("#tasksTableContainer").html(response);
-            //colorizeTasksTableStatusText();
         },
         error: function () {
             alert("error");
@@ -339,7 +334,6 @@ function sortTasksDesc(e) {
         processData: false,
         success: function (response) {
             $("#tasksTableContainer").html(response);
-            //colorizeTasksTableStatusText();
         },
         error: function () {
             alert("error");
@@ -350,13 +344,12 @@ function sortTasksDesc(e) {
 function filterTasksByStatus(filter) {
 
     $.ajax({
-        url: "/Tasks/ViewAllTasksTable/ /" + filter.value.toString(),
+        url: "/Tasks/ViewAllTasksTable/null/" + filter.value.toString(),
         method: "GET",
         contentType: false,
         processData: false,
         success: function (response) {
             $("#tasksTableContainer").html(response);
-            //colorizeTasksTableStatusText();
         },
         error: function () {
             alert("error");
@@ -364,26 +357,74 @@ function filterTasksByStatus(filter) {
     })
 }
 
-function redirectToTasks() {
+function sortSubTasksAsec(e) {
+    e.preventDefault();
+
     $.ajax({
-        url: "/Tasks/TasksPartial",
+        url: "/SubTasks/ViewAllSubTasksTable/asec",
         method: "GET",
+        contentType: false,
+        processData: false,
         success: function (response) {
-            $("#page").html(response);
+            $("#subTasksTableContainer").html(response);
         },
         error: function () {
             alert("error");
         }
-    });
+    })
 }
 
-function redirectToSubTasks(task) {
+function sortSubTasksDesc(e) {
+    e.preventDefault();
 
-    var taskId = $(task).attr("data-task-id");
-    getTaskSubTasksList(taskId)
+    $.ajax({
+        url: "/SubTasks/ViewAllSubTasksTable/desc",
+        method: "GET",
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            $("#subTasksTableContainer").html(response);
+        },
+        error: function () {
+            alert("error");
+        }
+    })
 }
 
-function getTaskSubTasksList(taskId) {
+function filterSubTasksByStatus(filter) {
+
+    $.ajax({
+        url: "/SubTasks/ViewAllSubTasksTable/null/" + filter.value.toString() + "/null",
+        method: "GET",
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            $("#subTasksTableContainer").html(response);
+        },
+        error: function () {
+            alert("error");
+        }
+    })
+}
+
+
+function filterSubTasksByPriority(filter) {
+
+    $.ajax({
+        url: "/SubTasks/ViewAllSubTasksTable/null/null/" + filter.value.toString(),
+        method: "GET",
+        contentType: false,
+        processData: false,
+        success: function (response) {
+            $("#subTasksTableContainer").html(response);
+        },
+        error: function () {
+            alert("error");
+        }
+    })
+}
+
+function getSubTasksListOfSpecificTask(taskId) {
 
     $.ajax({
         url: "/SubTasks/Index/" + taskId,

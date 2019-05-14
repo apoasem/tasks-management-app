@@ -13,13 +13,7 @@ namespace RDC
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-                name: "ViewAllTasksTable",
-                url: "Tasks/ViewAllTasksTable/{sort}/{filter}",
-                defaults: new { controller = "Tasks", action = "ViewAllTasksTable", sort = UrlParameter.Optional, filter = UrlParameter.Optional }
-            );
-
-            
+            routes.MapMvcAttributeRoutes();
 
             routes.MapRoute(
                 name: "Default",

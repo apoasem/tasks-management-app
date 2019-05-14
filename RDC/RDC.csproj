@@ -750,7 +750,7 @@
     <Content Include="Views\Tasks\Details.cshtml" />
     <Content Include="Views\Tasks\Edit.cshtml" />
     <Content Include="Views\Tasks\Index.cshtml" />
-    <Content Include="Views\Tasks\ViewAll.cshtml" />
+    <Content Include="Views\Tasks\ViewAllTasks.cshtml" />
     <Content Include="webfonts\fa-brands-400.svg" />
     <Content Include="webfonts\fa-regular-400.svg" />
     <Content Include="webfonts\fa-solid-900.svg" />
@@ -772,10 +772,10 @@
     <Content Include="Views\SubTasks\Details.cshtml" />
     <Content Include="Views\SubTasks\Edit.cshtml" />
     <Content Include="Views\SubTasks\Index.cshtml" />
-    <Content Include="Views\SubTasks\ViewAll.cshtml" />
+    <Content Include="Views\SubTasks\ViewAllSubTasks.cshtml" />
     <Content Include="Views\Shared\_ViewAllSubTasksTablePartial.cshtml" />
     <Content Include="Views\Shared\_SubTasksTableBodyPartial.cshtml" />
-    <Content Include="Views\Shared\_TasksPartial.cshtml" />
+    <Content Include="Views\Shared\_TasksPagePartial.cshtml" />
     <Content Include="Views\Shared\_NavBarPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
@@ -794,6 +794,7 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

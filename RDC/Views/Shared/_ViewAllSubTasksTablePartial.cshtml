@@ -7,8 +7,8 @@
                 <th>
                     <div class="d-flex flex-row">
                         <div class="d-flex flex-column pr-5">
-                            <a onclick="sortTasksAsec(event)" class="fa fa-sort-up control-icon"></a> <!-- implement -->
-                            <a onclick="sortTasksDesc(event)" class="fa fa-sort-down control-icon"></a> <!-- implement -->
+                            <a onclick="resetSearchInput(); sortSubTasksAsec(event)" class="fa fa-sort-up control-icon"></a>
+                            <a onclick="resetSearchInput(); sortSubTasksDesc(event)" class="fa fa-sort-down control-icon"></a>
                         </div>
                         <div class="pt-2">
                             @Html.DisplayNameFor(model => model.Title)

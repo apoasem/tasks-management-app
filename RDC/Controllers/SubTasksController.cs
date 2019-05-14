@@ -15,6 +15,10 @@ namespace RDC.Controllers
     {
         private TaskApplicationContext db = new TaskApplicationContext();
 
+        private static string StatusFilter = "None";
+        private static string PriorityFilter = "None";
+        private static string Sort = "None";
+
         private List<string> StatusList = new List<string> { TaskStatus.BACKLOG, TaskStatus.PROGRESS, TaskStatus.DONE};
         private List<string> StatusFiltersList = new List<string> { TaskStatus.BACKLOG, TaskStatus.PROGRESS, TaskStatus.DONE, TaskStatus.NONE };
 
@@ -30,10 +34,8 @@ namespace RDC.Controllers
             return View();
         }
 
-        public ActionResult ViewAll()
+        public ActionResult ViewAllSubTasks()
         {
-            //var taskId = Convert.ToInt32(TempData["taskId"]);
-
             var subTasks = db.SubTasks.Include(s => s.Task).Where(s => s.TaskId == taskId).AsQueryable();
 
             var viewModel = new SubTaskViewModel
@@ -44,6 +46,83 @@ namespace RDC.Controllers
             };
 
             return View(viewModel);
+        }
+
+        [Route("SubTasks/ViewAllSubTasksTable/{sort?}/{statusFilter?}/{priorityFilter?}")]
+        public ActionResult ViewAllSubTasksTable(string sort, string statusFilter, string priorityFilter)
+        {
+            var subTasks = db.SubTasks.AsQueryable();
+
+            if (String.IsNullOrWhiteSpace(statusFilter) || statusFilter == "null")
+            {
+                statusFilter = StatusFilter; // get the last filter value
+            }
+
+            if (String.IsNullOrWhiteSpace(priorityFilter) || priorityFilter == "null")
+            {
+                priorityFilter = PriorityFilter; // get the last filter value
+            }
+
+            if (statusFilter == "None")
+            {
+                StatusFilter = statusFilter;
+            }
+
+            if (priorityFilter == "None")
+            {
+                PriorityFilter = priorityFilter;
+            }
+
+            if (statusFilter != "None" && priorityFilter != "None")
+            {
+                subTasks = subTasks.Where(t => t.Priority == priorityFilter).Where(t => t.Status == statusFilter);
+                StatusFilter = statusFilter; // get the last filter value
+                PriorityFilter = priorityFilter; // get the last filter value
+
+            } else if ((!String.IsNullOrWhiteSpace(statusFilter) || statusFilter != "null") && statusFilter != "None")
+            {
+                if (statusFilter == TaskStatus.BACKLOG || statusFilter == TaskStatus.PROGRESS || statusFilter == TaskStatus.DONE)
+                {
+                    subTasks = subTasks.Where(t => t.Status == statusFilter);
+                }
+
+                StatusFilter = statusFilter;
+
+            } else if ((!String.IsNullOrWhiteSpace(priorityFilter) || priorityFilter != "null") && priorityFilter != "None")
+            {
+                if (priorityFilter == SubTaskPriority.LOW || priorityFilter == SubTaskPriority.MID || priorityFilter == SubTaskPriority.HIGH)
+                {
+                    subTasks = subTasks.Where(t => t.Priority == priorityFilter);
+                }
+
+                PriorityFilter = priorityFilter;
+            }
+
+            if (String.IsNullOrWhiteSpace(sort) || sort == "null")
+            {
+                sort = Sort; // get the last sort value
+            }
+
+            if ((!String.IsNullOrWhiteSpace(sort) || sort != "null") && sort != "None")
+            {
+                if (sort == Sorting.ASEC)
+                {
+                    subTasks = subTasks.OrderBy(t => t.Title);
+                }
+                else if (sort == Sorting.DESC)
+                {
+                    subTasks = subTasks.OrderByDescending(t => t.Title);
+                }
+
+                Sort = sort;
+            }
+
+            var viewModel = new SubTaskViewModel
+            {
+                SubTasksList = subTasks.ToList()
+            };
+
+            return PartialView("_ViewAllSubTasksTablePartial", viewModel);
         }
 
         // GET: SubTasks/Details/5
@@ -85,7 +164,7 @@ namespace RDC.Controllers
             {
                 db.SubTasks.Add(subTask);
                 db.SaveChanges();
-                return RedirectToAction("ViewAll");
+                return RedirectToAction("ViewAllSubTasks");
             }
 
             var viewModel = new SubTaskViewModel()
@@ -144,7 +223,7 @@ namespace RDC.Controllers
             {
                 db.Entry(subTask).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("ViewAll");
+                return RedirectToAction("ViewAllSubTasks");
             }
 
             var viewModel = new SubTaskViewModel()
@@ -181,15 +260,23 @@ namespace RDC.Controllers
 
             db.SubTasks.Remove(subTask);
             db.SaveChanges();
-            return RedirectToAction("ViewAll");
+            return RedirectToAction("ViewAllSubTasks");
         }
 
+
+        ~SubTasksController() {
+
+            StatusFilter = "None";
+            PriorityFilter = "None";
+            Sort = "None";
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
                 db.Dispose();
             }
+
             base.Dispose(disposing);
         }
     }
