@@ -49,7 +49,7 @@ namespace RDC.Controllers
         }
 
         [Route("SubTasks/ViewAllSubTasksTable/{sort?}/{statusFilter?}/{priorityFilter?}")]
-        public ActionResult ViewAllSubTasksTable(string sort, string statusFilter, string priorityFilter)
+        public PartialViewResult ViewAllSubTasksTable(string sort, string statusFilter, string priorityFilter)
         {
             var subTasks = db.SubTasks.AsQueryable();
 

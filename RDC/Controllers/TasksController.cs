@@ -27,8 +27,7 @@ namespace RDC.Controllers
         {
             return View();
         }
-
-        public ActionResult TasksPagePartial()
+        public PartialViewResult TasksPagePartial()
         {
             Filter = "None";
             Sort = "None";
@@ -50,7 +49,7 @@ namespace RDC.Controllers
         }
 
         [Route("Tasks/ViewAllTasksTable/{sort?}/{filter?}")]
-        public ActionResult ViewAllTasksTable(string sort, string filter)
+        public PartialViewResult ViewAllTasksTable(string sort, string filter)
         {
             var tasks = db.Tasks.AsQueryable();
 
