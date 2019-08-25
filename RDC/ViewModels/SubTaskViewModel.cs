@@ -7,7 +7,7 @@ using System.Web;
 
 namespace RDC.ViewModels
 {
-    public class SubTaskViewModel
+    public class SubTaskViewModel : Task
     {
         public int Id { get; set; }
 

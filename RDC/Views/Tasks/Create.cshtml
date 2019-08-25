@@ -5,7 +5,7 @@
     Layout = null;
 }
 
-@using (Html.BeginForm("Create", "Tasks", FormMethod.Post, new { onsubmit = "return postTask(this)", @id = "postTask", data_taskId = Model.Id }))
+@using (Html.BeginForm("Create", "Tasks", FormMethod.Post, new { @id = "postTask", onsubmit= "return postTask(this);", data_taskId = Model.Id }))
 {
     @Html.AntiForgeryToken()
 

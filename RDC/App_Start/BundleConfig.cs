@@ -22,6 +22,7 @@ namespace RDC
                 "~/Scripts/main.js",
                 "~/Scripts/ckeditor/ckeditor.js",
                 "~/Scripts/notify.min.js",
+                "~/Scripts/jquery.unobtrusive-ajax.min.js",
                 "~/Scripts/jquery-confirm/dist/jquery-confirm.min.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're

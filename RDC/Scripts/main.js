@@ -32,7 +32,6 @@ function postTask(form) {
                 redirectToTab("tasksTabs", 0);
                 getAddNewTaskTabContent(); // refresh the form
                 renameTabTitle("taskConfigTab", "New Task");
-                console.log($(form).attr("data-taskId"));
 
                 if ($(form).attr("data-taskId") == 0) {
                     $.notify("task added successfully", "success");
@@ -148,7 +147,8 @@ function deleteSubTask(subTask) {
 
 
 function redirectToTab(tabsContainerId, tabNumber) {
-    $("#" + tabsContainerId + " li a:eq(" + tabNumber + ")").tab("show");
+    //$("#" + tabsContainerId + " li a:eq(" + tabNumber + ")").tab("show");
+    $("#allTasksTab").tab("show");
 }
 
 function renameTabTitle(tabId, title) {

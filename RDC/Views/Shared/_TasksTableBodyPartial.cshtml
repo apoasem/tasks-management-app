@@ -9,6 +9,12 @@
         <a class="fa fa-edit fa-lg control-icon mr-1" onclick="renameTabTitle('taskConfigTab', 'Edit Task'); redirectToEditTaskTab('@Url.Action("Edit", "Tasks", new { id = Model.Id })')"></a>
         <a class="fa fa-info-circle text-info fa-lg control-icon mr-1" onclick="renameTabTitle('taskConfigTab', 'Task Details'); redirectToTaskDetailsTab('@Url.Action("Details", "Tasks", new { id = Model.Id })')"></a>
         <a class="fa fa-tasks text-primary fa-lg control-icon mr-1" data-task-id="@Model.Id" onclick="redirectToSubTasks(this)"></a>
+
         <a class="fa fa-trash-alt text-danger fa-lg control-icon" data-task-id="@Model.Id" onclick="deleteTask(this)"></a>
+        
+        @*@Ajax.ActionLink(" ", "Delete", "Tasks", new { id= Model.Id }, new AjaxOptions {
+            HttpMethod = "POST",
+        }, 
+        new { @class = "fa fa-trash-alt text-danger fa-lg control-icon" })*@
     </td>
 </tr>

@@ -1,13 +1,12 @@
-﻿using System;
+﻿using RDC.Models;
+using RDC.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
-using RDC.Models;
-using RDC.ViewModels;
 
 namespace RDC.Controllers
 {
@@ -34,7 +33,7 @@ namespace RDC.Controllers
             return PartialView("_TasksPagePartial");
         }
 
-        
+
         public ActionResult ViewAllTasks()
         {
             var tasks = db.Tasks.AsQueryable();
