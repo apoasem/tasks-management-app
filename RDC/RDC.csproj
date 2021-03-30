@@ -136,6 +136,10 @@
     <Compile Include="Migrations\201905092004373_Initial-DB.Designer.cs">
       <DependentUpon>201905092004373_Initial-DB.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201910082149446_updatedModal.cs" />
+    <Compile Include="Migrations\201910082149446_updatedModal.Designer.cs">
+      <DependentUpon>201910082149446_updatedModal.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\SiteInfo.cs" />
     <Compile Include="Models\Sorting.cs" />
@@ -655,6 +659,7 @@
     <Content Include="Scripts\esm\popper.js.map" />
     <Content Include="Scripts\esm\popper-utils.min.js.map" />
     <Content Include="Scripts\esm\popper-utils.js.map" />
+    <Content Include="libman.json" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -784,6 +789,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201905092004373_Initial-DB.resx">
       <DependentUpon>201905092004373_Initial-DB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201910082149446_updatedModal.resx">
+      <DependentUpon>201910082149446_updatedModal.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
